@@ -38,6 +38,7 @@ const Tools = () => {
             value={page}
             onChange={onChange}
             plugins={[
+              //   "infinite",
               {
                 resolve: arrowsPlugin,
                 options: {

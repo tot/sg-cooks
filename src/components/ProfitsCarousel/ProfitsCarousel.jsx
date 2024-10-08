@@ -1,63 +1,44 @@
 import React from "react"
-import Carousel, { slidesToShowPlugin } from "@brainhubeu/react-carousel"
-import "@brainhubeu/react-carousel/lib/style.css"
+
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 import tradingcards from "../../images/tradingcards.svg"
 import trading from "../../images/trading.svg"
 import lowkey from "../../images/lowkey.svg"
 import bricks from "../../images/bricks.svg"
 
+const responsive = {
+  mobile: {
+    breakpoint: {max: 640, min: 0},
+    items: 1,
+  },
+  tablet: {
+    breakpoint: {max: 768, min: 640},
+    items: 2,
+  },
+  desktop: {
+    breakpoint: {max: 3000, min: 768},
+    items: 3,
+  },
+}
+
 const ProfitsCarousel = () => {
   return (
     <div className="relative z-1">
-      <Carousel
-        plugins={[
-          "infinite",
-          "centered",
-          {
-            resolve: slidesToShowPlugin,
-            options: {
-              numberOfSlides: 4,
-            },
-          },
-        ]}
-        breakpoints={{
-          640: {
-            plugins: [
-              "infinite",
-              "centered",
-              {
-                resolve: slidesToShowPlugin,
-                options: {
-                  numberOfSlides: 1,
-                },
-              },
-            ],
-          },
-          768: {
-            plugins: [
-              "infinite",
-              {
-                resolve: slidesToShowPlugin,
-                options: {
-                  numberOfSlides: 2,
-                },
-              },
-            ],
-          },
-          1024: {
-            plugins: [
-              "infinite",
-              "centered",
-              {
-                resolve: slidesToShowPlugin,
-                options: {
-                  numberOfSlides: 2,
-                },
-              },
-            ],
-          },
-        }}
+        <Carousel
+          swipeable
+          draggable
+          infinite
+          autoPlay
+          centerMode
+          keyBoardControl
+          showDots={false}
+          responsive={responsive}
+          ssr={false}
+          autoPlaySpeed={5000}
+          transitionDuration={500}
+          slidesToSlide={1}
       >
         <div className="profits-card backdrop-filter backdrop-blur mx-6 p-8 rounded-3xl">
           <h1 className="flex items-center text-white text-xl font-medium pb-2">
