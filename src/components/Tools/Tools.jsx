@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import Carousel, { arrowsPlugin } from "@brainhubeu/react-carousel"
-import "@brainhubeu/react-carousel/lib/style.css"
+import {useState} from "react"
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 import tools from "../../images/tools.png"
 import monitor from "../../images/monitor.png"
@@ -25,72 +25,86 @@ import toolstriangle from "../../images/toolstriangle.svg"
 import toolstriangle2 from "../../images/toolstriangle2.svg"
 import toolsline from "../../images/toolsline.svg"
 
-const Tools = () => {
-  const [page, setPage] = useState(0)
-  const onChange = (slide) => {
-    setPage(slide)
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 1,
+    slidesToSlide: 1
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1,
+    slidesToSlide: 1
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1
   }
+};
+
+const Tools = () => {
+  const [slide, setCurrentSlide] = useState(5)
+  
   return (
     <div id="tools" className="relative w-full py-10 lg:py-20">
       <div className="px-6 md:px-8 max-w-7xl mx-auto lg:flex">
         <div className="relative w-full mb-10 lg:mb-0 lg:w-1/2 flex items-center h-auto lg:h-96">
-          <Carousel
-            value={page}
-            onChange={onChange}
-            plugins={[
-              //   "infinite",
-              {
-                resolve: arrowsPlugin,
-                options: {
-                  arrowLeft: (
-                    <button className="focus:outline-none cursor-pointer absolute z-5 left-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
-                      <img src={left} className="" alt="left" />
-                    </button>
-                  ),
-                  arrowLeftDisabled: (
-                    <button className="opacity-50 cursor-not-allowed focus:outline-none absolute z-5 left-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
-                      <img src={left} className="" alt="left" />
-                    </button>
-                  ),
-                  arrowRight: (
-                    <button className="focus:outline-none cursor-pointer absolute z-5 right-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
-                      <img src={right} className="" alt="right" />
-                    </button>
-                  ),
-                  arrowRightDisabled: (
-                    <button className="opacity-50 cursor-not-allowed focus:outline-none absolute z-5 right-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
-                      <img src={right} className="" alt="right" />
-                    </button>
-                  ),
-                  addArrowClickHandler: true,
-                },
-              },
-            ]}
+          <div className="relative z-10 w-full">
+            <Carousel
             className="relative z-1"
-          >
-            <div className="px-5">
+              swipeable
+              draggable
+              showDots={false}
+              infinite
+              autoPlay
+              keyBoardControl
+              minimumTouchDrag={80}
+              renderDotsOutside
+              responsive={responsive}
+              ssr={false}
+              autoPlaySpeed={3000}
+              transitionDuration={500}
+              customRightArrow={
+                <button className="focus:outline-none cursor-pointer absolute z-5 right-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
+                  <img src={right} className="" alt="right" />
+                </button>
+              }
+              customLeftArrow={
+                <button className="focus:outline-none cursor-pointer absolute z-5 left-0 top-1/2 transform -translate-y-1/2 rounded-full w-12 h-12 flex justify-center items-center backdrop-filter backdrop-blur carousel-arrows">
+                  <img src={left} className="" alt="left" />
+                </button>
+              }
+              afterChange={(previousSlide, {currentSlide, onMove}) => {
+                setCurrentSlide(currentSlide)
+              }}
+            >
+              <div className="px-5">
               <img
                 src={tools}
-                className="w-full rounded-md shadow-lg"
+                className="w-full rounded-md shadow-lg select-none"
+                draggable={false}
                 alt="SG Cooks Tools Suite"
               />
             </div>
             <div className="px-5">
               <img
                 src={monitor}
-                className="w-full rounded-md shadow-lg"
+                draggable={false}
+                className="w-full rounded-md shadow-lg select-none"
                 alt="SG Cooks Monitor Deck"
               />
             </div>
             <div className="px-5">
               <img
                 src={aqt}
-                className="w-full rounded-md shadow-lg"
+                draggable={false}
+                className="w-full rounded-md shadow-lg select-none"
                 alt="SG Cooks Auto Quick Task"
               />
             </div>
-          </Carousel>
-
+            </Carousel>
+          </div>
           <img
             src={carouselcircle}
             className="w-40 md:w-auto absolute z-0 -right-4 -bottom-4 md:-right-8 md:-bottom-8 lg:-right-10 lg:bottom-0 xl:-right-12 xl:-bottom-12"
@@ -105,13 +119,13 @@ const Tools = () => {
         <div className="lg:max-w-md ml-auto lg:ml-auto lg:w-1/2 relative">
           <div className="text-right pb-10">
             <h2 className="tracking-extrawidest uppercase text-white opacity-50 text-base font-normal pb-2">
-              TOOLS
+              TOOLS {slide}
             </h2>
             <h1 className="text-white text-3xl font-semibold opacity-90 pb-2">
               Exclusive Access to the Best
             </h1>
           </div>
-          {page === 0 && (
+          {slide === 5 && (
             <div className="space-y-6">
               <div className="flex items-center">
                 <img
@@ -149,7 +163,7 @@ const Tools = () => {
               <p className="text-center text-white opacity-50">+ more!</p>
             </div>
           )}
-          {page === 1 && (
+          {slide === 3 && (
             <div className="space-y-6">
               <div className="flex items-center">
                 <img src={clock} className="w-12" alt="Monitor Products" />
@@ -184,7 +198,7 @@ const Tools = () => {
             </div>
           )}
 
-          {page === 2 && (
+          {slide === 4 && (
             <div className="space-y-6">
               <div className="flex items-center">
                 <img src={card} className="w-12" alt="Monitor Checkouts" />
